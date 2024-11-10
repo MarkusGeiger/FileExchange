@@ -1,0 +1,6 @@
+@FileExchange.Api_HostAddress = http://localhost:5208
+
+GET {{FileExchange.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
