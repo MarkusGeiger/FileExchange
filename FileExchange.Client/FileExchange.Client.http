@@ -1,0 +1,6 @@
+@FileExchange.Client_HostAddress = http://localhost:5191
+
+GET {{FileExchange.Client_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

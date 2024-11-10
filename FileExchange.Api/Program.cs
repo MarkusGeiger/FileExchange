@@ -2,12 +2,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+//builder.Services.AddAntiforgery();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+//app.UseAntiforgery();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -39,6 +43,40 @@ app.MapGet("/weatherforecast", () =>
   })
   .WithName("GetWeatherForecast")
   .WithOpenApi();
+app.MapPost("/upload", async (IFormFile file) =>
+{
+  var tempFile = Path.GetTempFileName();
+  app.Logger.LogInformation(tempFile);
+  using var stream = File.OpenWrite(tempFile);
+  await file.CopyToAsync(stream);
+}).DisableAntiforgery();
+
+app.MapPost("/upload_many", async (IFormFileCollection myFiles) =>
+{
+  foreach (var file in myFiles)
+  {
+    var tempFile = Path.GetTempFileName();
+    app.Logger.LogInformation(tempFile);
+    using var stream = File.OpenWrite(tempFile);
+    await file.CopyToAsync(stream);
+  }
+}).DisableAntiforgery();
+// app.MapPost("/upload", async (FormFile file) =>
+// {
+//   var size = file.Length;
+//
+//   if (file.Length <= 0) return Results.BadRequest("File is empty");
+//   var filePath = Path.GetTempFileName();
+//   app.Logger.LogInformation("Uploading file {FilePath}", filePath);
+//   await using var stream = File.Create(filePath);
+//   await file.CopyToAsync(stream);
+//   
+//
+//   // Process uploaded files
+//   // Don't rely on or trust the FileName property without validation.
+//
+//   return Results.Ok(new { size });
+// });
 
 app.Run();
 

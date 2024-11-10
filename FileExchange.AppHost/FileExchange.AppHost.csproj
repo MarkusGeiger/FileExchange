@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FileExchange.Api\FileExchange.Api.csproj" />
+      <ProjectReference Include="..\FileExchange.Client\FileExchange.Client.csproj" />
     </ItemGroup>
 
 </Project>
