@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 
 namespace FileExchange.Client;
 
-public class ClientHostedService(IHttpClientFactory clientFactory) : BackgroundService
+public class ClientHostedService(ILogger<ClientHostedService> logger, IHttpClientFactory clientFactory) : BackgroundService
 {
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
   {
@@ -20,8 +20,8 @@ public class ClientHostedService(IHttpClientFactory clientFactory) : BackgroundS
       // "file" parameter name should be the same as the server side input parameter name
       form.Add(fileContent, "file", Path.GetFileName(filePath));
       HttpResponseMessage response = await httpClient.PostAsync(url, form, stoppingToken);
-      
-      await Task.Delay(1000, stoppingToken);
+      logger.LogInformation($"{response.StatusCode} - {response.ReasonPhrase}");
+      await Task.Delay(10000, stoppingToken);
     }
   }
 }

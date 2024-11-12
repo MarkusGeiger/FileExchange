@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExchange.Api", "FileExc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExchange.Client", "FileExchange.Client\FileExchange.Client.csproj", "{7077E461-0930-4447-99F4-D8B7A3D613DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExchange.Client.UI", "FileExchange.Client.UI\FileExchange.Client.UI.csproj", "{41973F32-5491-4E63-BA01-9A50562C6D9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{7077E461-0930-4447-99F4-D8B7A3D613DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7077E461-0930-4447-99F4-D8B7A3D613DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7077E461-0930-4447-99F4-D8B7A3D613DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41973F32-5491-4E63-BA01-9A50562C6D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41973F32-5491-4E63-BA01-9A50562C6D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41973F32-5491-4E63-BA01-9A50562C6D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41973F32-5491-4E63-BA01-9A50562C6D9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

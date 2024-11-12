@@ -7,12 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+      <ProjectReference Include="..\FileExchange.ServiceDefaults\FileExchange.ServiceDefaults.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FileExchange.ServiceDefaults\FileExchange.ServiceDefaults.csproj" />
+      <PackageReference Include="MudBlazor" Version="7.15.0" />
     </ItemGroup>
 
 </Project>
