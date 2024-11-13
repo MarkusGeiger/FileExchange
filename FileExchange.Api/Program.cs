@@ -1,3 +1,9 @@
+using System.Reflection.Metadata;
+
+var tempFolder = Path.Combine(Path.GetTempPath(), "FileExchangeTarget");
+if(Directory.Exists(tempFolder)) Directory.Delete(tempFolder, true);
+Directory.CreateDirectory(tempFolder);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -43,11 +49,17 @@ app.MapGet("/weatherforecast", () =>
   })
   .WithName("GetWeatherForecast")
   .WithOpenApi();
+
 app.MapPost("/upload", async (IFormFile file) =>
 {
-  var tempFile = Path.GetTempFileName();
-  app.Logger.LogInformation(tempFile);
-  using var stream = File.OpenWrite(tempFile);
+  var fileExtension = Path.GetExtension(file.FileName);
+  if (string.IsNullOrWhiteSpace(fileExtension)) fileExtension = ".png";
+  var randomFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+  var tempFile = Path.Combine(tempFolder, randomFileName + fileExtension);
+  
+  app.Logger.LogInformation($"Random file: {randomFileName}, Random file without extension: {Path.GetFileNameWithoutExtension(randomFileName)}, Temp folder: {Path.GetTempPath()}");
+  app.Logger.LogInformation($"Temp file: {tempFile}");
+  await using var stream = File.OpenWrite(tempFile);
   await file.CopyToAsync(stream);
 }).DisableAntiforgery();
 
@@ -57,10 +69,11 @@ app.MapPost("/upload_many", async (IFormFileCollection myFiles) =>
   {
     var tempFile = Path.GetTempFileName();
     app.Logger.LogInformation(tempFile);
-    using var stream = File.OpenWrite(tempFile);
+    await using var stream = File.OpenWrite(tempFile);
     await file.CopyToAsync(stream);
   }
 }).DisableAntiforgery();
+
 // app.MapPost("/upload", async (FormFile file) =>
 // {
 //   var size = file.Length;

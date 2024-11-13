@@ -1,13 +1,20 @@
+using FileExchange.Client.UI;
 using FileExchange.Client.UI.Components;
+using FileExchange.Client.UI.Services;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
   .AddInteractiveServerComponents();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddSingleton<UploadTrackingService>();
+builder.Services.AddHostedService<ClientHostedService>();
 
 var app = builder.Build();
 
@@ -21,11 +28,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
   .AddInteractiveServerRenderMode();
+
+app.MapDefaultEndpoints();
 
 app.Run();
