@@ -1,6 +1,7 @@
 using FileExchange.Client.UI;
 using FileExchange.Client.UI.Components;
 using FileExchange.Client.UI.Services;
+using FileExchange.Client.UI.Services.UploadQueue;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,16 @@ builder.Services.AddRazorComponents()
 builder.Services.AddMudServices();
 
 builder.Services.AddSingleton<UploadTrackingService>();
+builder.Services.AddScoped<FileUploadService>();
+
+// Timed uploads
 builder.Services.AddHostedService<ClientHostedService>();
+
+// Queued uploads
+builder.Services.AddSingleton<FileUploadService>();
+builder.Services.AddSingleton<FileWatcherService>();
+builder.Services.AddSingleton<FileUploadQueueService>();
+builder.Services.AddHostedService<QueuedHostedService>();
 
 var app = builder.Build();
 

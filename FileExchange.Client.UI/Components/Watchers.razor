@@ -1,0 +1,30 @@
+@using FileExchange.Client.UI.Services.UploadQueue
+@inject FileWatcherService WatcherService
+
+<MudTable Items="@WatcherService.GetWatchChannels()" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Directory</MudTh>
+        <MudTh>LastChanged</MudTh>
+        @* <MudTh>Duration</MudTh> *@
+        @* <MudTh>Status</MudTh> *@
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Directory">@context.Directory</MudTd>
+        <MudTd DataLabel="LastChanged">@context.LastChangeTime</MudTd>
+        @* <MudTd DataLabel="Duration">@context.Duration ms</MudTd> *@
+        @* <MudTh DataLabel="Status">@context.Status</MudTh> *@
+    </RowTemplate>
+</MudTable>
+
+@code {
+    protected override Task OnInitializedAsync()
+    {
+        WatcherService.FileChanged += WatcherServiceOnFileChanged;
+        return Task.CompletedTask;
+    }
+
+    private void WatcherServiceOnFileChanged(object? sender, string e)
+    {
+        InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
+    }
+}

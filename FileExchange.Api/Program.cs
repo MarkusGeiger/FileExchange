@@ -58,7 +58,7 @@ app.MapPost("/upload", async (IFormFile file) =>
   var tempFile = Path.Combine(tempFolder, randomFileName + fileExtension);
   
   app.Logger.LogInformation($"Random file: {randomFileName}, Random file without extension: {Path.GetFileNameWithoutExtension(randomFileName)}, Temp folder: {Path.GetTempPath()}");
-  app.Logger.LogInformation($"Temp file: {tempFile}");
+  app.Logger.LogInformation($"Temp file: {tempFile}, Original File: {file.FileName}");
   await using var stream = File.OpenWrite(tempFile);
   await file.CopyToAsync(stream);
 }).DisableAntiforgery();

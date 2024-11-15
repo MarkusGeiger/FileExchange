@@ -1,36 +1,11 @@
 ﻿@page "/"
-@using FileExchange.Client.UI.Services
-@inject UploadTrackingService UploadTracking
 
 <PageTitle>Home</PageTitle>
 
+<MudText Typo="Typo.h1">File Watcher Channels</MudText>
+
+<Watchers/>
+
 <MudText Typo="Typo.h1">File Exchange</MudText>
 
-<MudTable Items="@UploadTracking.Uploads" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
-    <HeaderContent>
-        <MudTh>ID</MudTh>
-        <MudTh>Path</MudTh>
-        <MudTh>Duration</MudTh>
-        <MudTh>Status</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="ID">@context.Id</MudTd>
-        <MudTd DataLabel="Path">@context.Path</MudTd>
-        <MudTd DataLabel="Duration">@context.Duration ms</MudTd>
-        <MudTh DataLabel="Status">@context.Status</MudTh>
-    </RowTemplate>
-</MudTable>
-
-@code
-{
-    protected override Task OnInitializedAsync()
-    {
-        UploadTracking.UploadChanged += UploadTrackingOnUploadChanged;
-        return Task.CompletedTask;
-    }
-
-    private void UploadTrackingOnUploadChanged(object? sender, Upload e)
-    {
-        InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
-    }
-}
+<Uploads/>
