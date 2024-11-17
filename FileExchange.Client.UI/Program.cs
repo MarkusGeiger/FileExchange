@@ -1,5 +1,4 @@
-using FileExchange.Client.UI;
-using FileExchange.Client.UI.Components;
+using FileExchange.Client.UI.Frontend;
 using FileExchange.Client.UI.Services;
 using FileExchange.Client.UI.Services.UploadQueue;
 using MudBlazor.Services;
