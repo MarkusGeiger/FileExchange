@@ -14,16 +14,22 @@ builder.Services.AddRazorComponents()
 builder.Services.AddMudServices();
 
 builder.Services.AddSingleton<UploadTrackingService>();
-builder.Services.AddScoped<FileUploadService>();
+// builder.Services.AddScoped<FileUploadService>();
 
 // Timed uploads
-builder.Services.AddHostedService<ClientHostedService>();
+//builder.Services.AddHostedService<ClientHostedService>();
+
+// Generate Files
+builder.Services.AddHostedService<FileGeneratorHostedService>();
 
 // Queued uploads
-builder.Services.AddSingleton<FileUploadService>();
+// builder.Services.AddSingleton<FileUploadService>();
 builder.Services.AddSingleton<FileWatcherService>();
-builder.Services.AddSingleton<FileUploadQueueService>();
-builder.Services.AddHostedService<QueuedHostedService>();
+// builder.Services.AddSingleton<FileUploadQueueService>();
+// builder.Services.AddHostedService<QueuedHostedService>();
+
+// Managed Channels
+builder.Services.AddSingleton<ChannelManager>();
 
 var app = builder.Build();
 

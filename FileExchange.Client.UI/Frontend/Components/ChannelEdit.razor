@@ -1,5 +1,54 @@
+@using FileExchange.Client.UI.Services
+@using FileExchange.Client.UI.Services.UploadQueue
+@inject ChannelManager channelManager
 
+
+<MudTable Items="@channelManager.Channels.Values" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Directory</MudTh>
+        <MudTh>Target URL</MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Channel">@context.FileWatcher.Directory</MudTd>
+        <MudTd DataLabel="TargetUrl">@context.UploadClient.UploadUri</MudTd>
+        @* <MudTh DataLabel="Status">@(context.UploadClient.Uploads.LastOrDefault()?.Status)</MudTh> *@
+        <MudTh DataLabel="Status">
+            @switch (context.UploadClient.Uploads.LastOrDefault()?.Status)
+            {
+                case UploadStatus.Started:
+                    <MudChip T="string" Icon="@Icons.Material.Filled.PunchClock" IconColor="Color.Primary">@context.UploadClient.Uploads.LastOrDefault()?.Status</MudChip>
+                    break;
+                case UploadStatus.Success:
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Check" IconColor="Color.Success">@context.UploadClient.Uploads.LastOrDefault()?.Status</MudChip>
+                    break;
+                case UploadStatus.Failed:
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Error" IconColor="Color.Error">@context.UploadClient.Uploads.LastOrDefault()?.Status</MudChip>
+                    break;
+                default:
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Error" IconColor="Color.Error">Invalid State</MudChip>
+                    break;
+            }
+        </MudTh>
+    </RowTemplate>
+</MudTable>
+
+<MudButton @onclick="Callback">Add</MudButton>
 
 @code {
-    
-}
+
+    protected override Task OnInitializedAsync()
+    {
+        channelManager.ChannelUploadFinished += (_,_) => InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
+        return Task.CompletedTask;
+    }
+
+    private void Callback()
+    {
+        var tempFolder = Path.Combine(Path.GetTempPath(), "FileExchangeSource");
+        channelManager.RegisterChannel(tempFolder, new Uri("http://localhost:5208/upload"));
+    }
+
+} 
