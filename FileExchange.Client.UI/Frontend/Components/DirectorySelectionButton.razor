@@ -1,0 +1,21 @@
+@inject IDialogService DialogService
+
+
+<MudButton @onclick="OpenDialogAsync" Variant="Variant.Filled" Color="Color.Primary">
+    Open Simple Dialog
+</MudButton>
+
+<style>
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+@code {
+
+    private Task OpenDialogAsync()
+    {
+        var options = new DialogOptions { BackgroundClass = "my-custom-class", MaxWidth = MaxWidth.Medium, FullWidth = true };
+
+        return DialogService.ShowAsync<DirectorySelectionDialog>("Select Directory", options);
+    }
+}

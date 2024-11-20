@@ -1,9 +1,9 @@
 @using FileExchange.Client.UI.Services
 @using FileExchange.Client.UI.Services.UploadQueue
-@inject ChannelManager channelManager
+@inject ChannelManager ChannelManager
 
 
-<MudTable Items="@channelManager.Channels.Values" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+<MudTable Items="@ChannelManager.Channels.Values" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>Id</MudTh>
         <MudTh>Directory</MudTh>
@@ -35,20 +35,21 @@
     </RowTemplate>
 </MudTable>
 
-<MudButton @onclick="Callback">Add</MudButton>
+@* <MudButton @onclick="Callback">Add</MudButton> *@
+<DirectorySelectionButton/>
 
 @code {
 
     protected override Task OnInitializedAsync()
     {
-        channelManager.ChannelUploadFinished += (_,_) => InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
+        ChannelManager.ChannelUploadFinished += (_,_) => InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
         return Task.CompletedTask;
     }
 
     private void Callback()
     {
         var tempFolder = Path.Combine(Path.GetTempPath(), "FileExchangeSource");
-        channelManager.RegisterChannel(tempFolder, new Uri("http://localhost:5208/upload"));
+        ChannelManager.RegisterChannel(tempFolder, new Uri("http://localhost:5208/upload"));
     }
 
 } 

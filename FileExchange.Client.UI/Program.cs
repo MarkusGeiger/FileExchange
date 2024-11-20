@@ -1,5 +1,6 @@
 using FileExchange.Client.UI.Frontend;
 using FileExchange.Client.UI.Services;
+using FileExchange.Client.UI.Services.DirectoryAccess;
 using FileExchange.Client.UI.Services.UploadQueue;
 using MudBlazor.Services;
 
@@ -30,6 +31,8 @@ builder.Services.AddSingleton<FileWatcherService>();
 
 // Managed Channels
 builder.Services.AddSingleton<ChannelManager>();
+
+builder.Services.AddScoped<DirectoryService>();
 
 var app = builder.Build();
 

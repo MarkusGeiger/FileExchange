@@ -1,0 +1,39 @@
+@using FileExchange.Client.UI.Services.DirectoryAccess
+@inject DirectoryService DirectoryService
+<MudDialog>
+    <DialogContent>
+        
+        <MudStack Row="true" Class="p-8" AlignItems="AlignItems.Center">
+            <MudIconButton @onclick="MoveDirectoryUp" Icon="@Icons.Material.Outlined.ArrowUpward"></MudIconButton>
+            <MudText T="string">@DirectoryService.CurrentDirectory</MudText>
+        </MudStack>
+        <MudTable FixedHeader="true" Height="400px" Items="@DirectoryService.EnumerateDirectories().Directories">
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context</MudTd>
+            </RowTemplate>
+        </MudTable>
+        
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void MoveDirectoryUp()
+    {
+        DirectoryService.MoveUp();
+        InvokeAsync(StateHasChanged).GetAwaiter().GetResult();
+    }
+
+}
